@@ -6,11 +6,11 @@ import requests
 
 app = Flask(__name__)
 app.debug = True
-app.secret_key = 'changeme1'
+app.secret_key = 'changeme'
 oauth = OAuth(app)
 
-consumer_key = 'Vmc8aEJ=cYR5r6rf11--xiEA.!DJlLK997XY.uk7'     # Client ID
-consumer_secret = 'mDfa3qAo1Hcvv8Y1s1Fn;r08YvZYMDPKhxbgRGv:h1d0SOiSOIPTE3ZBZZcjc=TvkVIFxEJ1:WKawBVi6jtC_WLBXp-rOciJ!_b?L5B7hVq7y1hsFNL9oi-hr?kRzrDg'
+consumer_key = ''
+consumer_secret = ''
 access_token_url = 'https://goonauth.cattes.us/o/token/'  
 authorize_url = 'https://goonauth.cattes.us/o/authorize/'
 
