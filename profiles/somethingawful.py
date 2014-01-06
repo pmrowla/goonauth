@@ -36,9 +36,16 @@ class SomethingAwful(object):
         regdate = html.xpath('//dl[@class="additional"]/dd[1]/text()')[0]
         postcount = int(html.xpath('//dl[@class="additional"]/dd[2]/text()')[0])
         postrate = html.xpath('//dl[@class="additional"]/dd[3]/text()')[0]
-        lastpost = html.xpath('//dl[@class="additional"]/dd[4]/text()')[0]
-        location = html.xpath('//dl[@class="additional"]/dd[5]/text()')[0]
-        occupation = html.xpath('//dl[@class="additional"]/dd[6]/text()')[0]
+        lastpost = html.xpath('//dl[@class="additional"]/dd[4]/text()')[0].rstrip() #remove newlines, tabs
+        
+        additional = lxml.html.tostring(html.xpath('//dl[@class="additional"]')[0])
+        if 'Location' in additional:
+            location = additional.partition('Location</dt><dd>')[2].partition('</dd>')[0]
+            occupation = additional.partition('Occupation</dt><dd>')[2].partition('</dd>')[0]
+        else:
+            location = 'Unknown'
+            occupation = additional.partition('Occupation</dt><dd>')[2].partition('</dd>')[0]
+            
         userid = html.xpath("//form[1]/input[@name='userid']/@value")[0]
 
         profile = {
