@@ -80,4 +80,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = UserProfile
-        exclude = ('verification_code', 'active', 'user',)
+        fields = (
+            'user',
+            'active',
+            'visible',
+            'somethingawful',
+            'steam',
+            'eveonline',
+            'minecraft',
+            'nintendo',
+            'psn',
+            'xbl',
+            'bf4',
+            'blizzard',
+            'worldoftanks'
+        )
