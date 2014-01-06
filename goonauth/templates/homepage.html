@@ -9,14 +9,47 @@
 {% block body %}
 
 {% if request.user.is_authenticated %}
-  {% if not profile.active %}
-    <div class="alert alert-danger">You are currently not verfied as a member of SomethingAwful. Please <a href="/profile/somethingawful/">verify</a> for full site access.</div>
-  {% else %}
+
+    {% if not profile.active %}
+        <div class="alert alert-danger">You are currently not verfied as a member of SomethingAwful. Please <a href="/profile/somethingawful/">verify</a> for full site access.</div>
+	{% else %}
+	{% endif %}
+
+		<div class="jumbotron">
+		  <h1>Hey! Thanks for stopping by.</h1>
+		  <p class="lead">Sadly as a user there's not much to do here.</p>
+		  <p><a class="btn btn-lg btn-success" href="/profile/somethingawful/" role="button">Edit Your Profile</a> <a class="btn btn-lg btn-success" href="/oauth/new/" role="button">Create New OAuth Application</a></p>
+		</div>
+
+{% if profile.active %}
+<h2>Currently Verified As: {{ profile.somethingawful.username }}</h2>
 {% endif %}
+
+{% else %}
+
+<div class="jumbotron">
+  <h1>Welcome to GoonAuth</h1>
+  <p class="lead">GoonAuth is a simple and easy way to new users as members of the SomethingAwful forums using an easy to implement OAuth2 based API.</p>
+  <p><a class="btn btn-lg btn-success" href="/account/signup/" role="button">Register Today</a></p>
+</div>
+
+<div class="row">
+  <div class="col-lg-4">
+    <h2><span class="glyphicon glyphicon-globe"></span> For Users</h2>
+	<p>Once registered and verified, an (editable by you) profile will be available for GoonAuth enabled websites to use to be able to quickly retrieve information about your various other accounts (such as your Steam profile or Xbox Live gamertag).
+  </div>
+  <div class="col-lg-4">
+    <h2><span class="glyphicon glyphicon-cloud"></span> For Developers</h2>
+    <p>GoonAuth implements a standards compliant OAuth2 provider which allows you to authenticate and verify your users as SomethingAwful members quickly and easily. Simply register an application in your settings page and read up on our API documentation and example apps provided to you in our <a href="http://github.com/ell/goonauth">GitHub repository.</a></p>
+  </div>
+  <div class="col-lg-4">
+    <h2><span class="glyphicon glyphicon-heart"></span> Open Source</h2>
+	<p>GoonAuth is completely opensource and available on our <a href="http://github.com/ell/goonauth">GitHub repository</a>. Feel free to report any bugs or feature requests there. We are also accepting pull requests and other contributions as well.</p>
+  </div>
+</div>
 
 {% endif %}
 
-<h1>Hello {{ profile }}</h1>
 {% endblock body %}
 
 {% block footer %}
