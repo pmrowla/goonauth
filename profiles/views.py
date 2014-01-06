@@ -69,7 +69,7 @@ class OAuthClientUpdateView(LoginRequiredMixin, FormValidMessageMixin, UpdateVie
         return obj
 
 
-class OAuthClientListView(TemplateView):
+class OAuthClientListView(LoginRequiredMixin, TemplateView):
     template_name = "provider/list_clients.html"
 
     def get_context_data(self, *args, **kwargs):
@@ -99,7 +99,7 @@ class HomepageView(TemplateView):
         return context
 
     
-class SteamProfileSettingsView(TemplateView):
+class SteamProfileSettingsView(LoginRequiredMixin, TemplateView):
     template_name = "games/steam.html"
 
     def post(self, *args, **kwargs):
@@ -262,7 +262,7 @@ class BlizzardProfileSettingsView(LoginRequiredMixin, FormValidMessageMixin, Upd
         return blizz
 
     
-class AccountSettingsView(TemplateView):
+class AccountSettingsView(LoginRequiredMixin, TemplateView):
     template_name = "account/settings.html"
 
     def post(self, *args, **kwargs):
@@ -286,7 +286,7 @@ class AccountSettingsView(TemplateView):
         return context
 
 
-class SAVerificationView(FormView):
+class SAVerificationView(LoginRequiredMixin, FormView):
     template_name = "account/somethingawful.html"
     form_class = SomethingAwfulForm
     success_url = '/profile/somethingawful/'
