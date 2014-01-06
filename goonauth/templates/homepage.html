@@ -9,10 +9,9 @@
 {% block body %}
 
 {% if request.user.is_authenticated %}
-
-{% if not profile.active %}
-<div class="alert alert-danger">You are currently not verfied as a member of SomethingAwful. Please <a href="/profile/somethingawful/">verify</a> for full site access.</div>
-{% else %}
+  {% if not profile.active %}
+    <div class="alert alert-danger">You are currently not verfied as a member of SomethingAwful. Please <a href="/profile/somethingawful/">verify</a> for full site access.</div>
+  {% else %}
 {% endif %}
 
 {% endif %}
