@@ -25,7 +25,7 @@ urlpatterns = patterns("",
     url(r'^oauth/clients/', OAuthClientListView.as_view(), name="listoauth"),
 
     url(r'^api/profiles/', ProfileList.as_view()),
-    url(r'^api/profiles/user/', ProfileUserDetail.as_view()),
+    url(r'^api/user/', ProfileUserDetail.as_view()),
     url(r'^api/profiles/(?P<pk>[0-9]+)/$', ProfileDetail.as_view()),
 
     url(r'^profile/somethingawful/', SAVerificationView.as_view(), name="somethingawful"), 
