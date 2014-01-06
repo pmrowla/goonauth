@@ -9,4 +9,5 @@ To register an application create a new account at https://goonauth.cattes.us/ a
 Access Token URL: https://goonauth.cattes.us/o/token/  
 Authorize URL: https://goonauth.cattes.us/o/authorize/  
 Get Current Authorized Accounts Profile: https://goonauth.cattes.us/api/user/  
+  
 NOTE: the above api method requires an authorized token to work. See the example app for an example. If the user isnt currently a verified goon this api method will return an empty JSON string (hopefully!)  
