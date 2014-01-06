@@ -293,7 +293,8 @@ class SAVerificationView(FormView):
         try:
             sa_profile = somethingawful.get_profile(url)
             print sa_profile
-        except:
+        except Exception, err:
+            print err
             messages.warning(self.request, "There was an error parsing your SA profile. Please try again or contact elgruntox.")
             return super(SAVerificationView, self).form_valid(form)
 
