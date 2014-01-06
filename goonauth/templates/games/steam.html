@@ -1,0 +1,37 @@
+{% extends "account/base.html" %}
+
+{% load url from future %}
+{% load bootstrap %}
+
+{% block body_class %}account settings{% endblock %}
+
+{% block head_title %}Account{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-8">
+            <form method="POST" action="{% url "steamsettings" %}">
+                <legend>Steam Account Info</legend>
+                {% csrf_token %}
+
+				<h4>Current Info</h4>
+				
+				<hr />
+
+				<h5>Username: {{ steam.username }}</h5>
+				<h5>Profile URL: {{ steam.url }}</h5>
+				<h5>64 Bit ID: {{ steam.userid }}</h5>
+
+				<hr />
+				
+
+				<div class="form-group">
+				  <label for="steamurl">Steam Profile URL</label>
+				  <input type="url" name="steamurl" class="form-control" id="steamurl" placeholder="Eg. http://steamcommunity.com/id/elgruntox">
+				</div>
+				
+                <button class="btn btn-primary" type="submit">Sync Steam Account</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

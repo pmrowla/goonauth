@@ -1,0 +1,25 @@
+{% extends "theme_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block body %}
+
+{% if request.user.is_authenticated %}
+
+{% if not profile.active %}
+<div class="alert alert-danger">You are currently not verfied as a member of SomethingAwful. Please <a href="/profile/somethingawful/">verify</a> for full site access.</div>
+{% else %}
+{% endif %}
+
+{% endif %}
+
+<h1>Hello {{ profile }}</h1>
+{% endblock body %}
+
+{% block footer %}
+<p>Developed with love by <a href="http://github.com/ell/goonauth">elgruntox</a></p>
+{% endblock footer %}

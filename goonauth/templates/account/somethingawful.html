@@ -1,0 +1,50 @@
+{% extends "account/base.html" %}
+
+{% load url from future %}
+{% load bootstrap %}
+
+{% block body_class %}account settings{% endblock %}
+
+{% block head_title %}Account{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-8">
+            
+          		  
+		  <form method="POST" action-"{% url "somethingawful" %}">
+			<legend>Somethingawful Profile</legend>
+			{% if profile.active %}
+
+			<h4>You are currently verified as {{ profile.somethingawful.username }}</h4>
+			<h5>Regdate: {{ profile.somethingawful.regdate }}</h5>
+			<h5>Postcount: {{ profile.somethingawful.postcount }}</h5>
+
+			<hr />
+
+			{% csrf_token %}
+			<input type="hidden" name="url" value="{{ profile.somethingawful.url }}">
+			<button class="btn btn-primary" type="submit">Resync SA Information</button>
+		  </form>
+															 
+		  {% else %}
+		 
+		  <h4>Your verification code is: {{ profile.verification_code }}</h4>
+
+		  <hr />
+		  
+		  <form method="POST" action="{% url "somethingawful" %}">
+			<legend>Somethingawful Profile</legend>
+
+			<p>To verify you account put your verification code into any editable field of your SomethingAwful profile. Once the code is in place please put a link to your profile and click Verify.</p>
+			
+            {% csrf_token %}
+            {{ form|bootstrap }}
+            <button class="btn btn-primary" type="submit">Verify</button>
+          </form>
+
+		  {% endif %}
+                
+        </div>
+    </div>
+{% endblock %}

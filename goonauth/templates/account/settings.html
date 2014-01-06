@@ -1,0 +1,39 @@
+{% extends "account/base.html" %}
+
+{% load url from future %}
+{% load bootstrap %}
+
+{% block body_class %}account settings{% endblock %}
+
+{% block head_title %}Account{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-8">
+		  <form method="POST" action="{% url "accountsettings" %}" role="form">
+			
+			<legend>Account Settings for {{ request.user.username }}</legend>
+
+			<h5 class="form-control-static">Verified Goon: {{ profile.active|default_if_none:"False" }}</h5>
+			{% if profile.active %}
+			<h5 class="form-control-static">SA Username: {{ profile.somethingawful.username }}</h5>
+			{% endif %}
+			
+
+			<hr />
+
+			<div class="checkbox">
+			  <label>
+				<input type="checkbox" name="isvisible" {% if profile.visible %}checked="true"{% endif %}> Profile Visible to Public
+			  </label>
+			</div>
+
+			<br />
+
+			{% csrf_token %}
+			<button type="submit" class="btn btn-default">Update</button>
+			
+		  </form>
+        </div>
+    </div>
+{% endblock %}
