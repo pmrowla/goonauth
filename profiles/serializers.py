@@ -80,3 +80,4 @@ class UserProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = UserProfile
+        exclude = ('verification_code', 'active', 'user',)

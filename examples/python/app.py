@@ -33,7 +33,7 @@ def index():
         headers = {
             'Authorization': 'Bearer ' + session.get('goonauth_token')
         }
-        profile = requests.get('https://goonauth.cattes.us/api/profiles/user/', headers=headers).text
+        profile = requests.get('https://goonauth.cattes.us/api/user/', headers=headers).text
         return profile
 
     return redirect(url_for('login'))
