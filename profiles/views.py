@@ -106,7 +106,13 @@ class SteamProfileSettingsView(TemplateView):
         profile = UserProfile.objects.get(user=self.request.user)
         
         if self.request.POST.get('steamurl'):
-            steam_data = self.get_steam_data(self.request.POST['steamurl'] + '?xml=1')
+            try:
+                steam_data = self.get_steam_data(self.request.POST['steamurl'] + '?xml=1')
+            except Exception, err:
+                print err
+                messages.warning(self.request, "There was an error parsing your steam profile. If this problem persists contact elgruntox.")
+                return self.render_to_response(self.get_context_data())
+                
             if steam_data:
                 steam = profile.steam
                 steam.username = steam_data['username']
