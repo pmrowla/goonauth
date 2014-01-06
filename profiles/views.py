@@ -370,7 +370,9 @@ class ProfileUserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, gene
     permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
     model = UserProfile
     serializer_class = UserProfileSerializer
-    queryset = UserProfile.objects.filter(active=True)
+
+    def get_queryset(self, *args, **kwargs):
+        return UserProfile.objects.filter(active=True).filter(user=self.request.user)
 
     def get(self, request, *args, **kwargs):
         user = request.user

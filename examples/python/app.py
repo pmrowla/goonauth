@@ -1,23 +1,25 @@
 from flask import Flask, redirect, url_for, session, request, jsonify
 from flask_oauthlib.client import OAuth
 
+import requests
+
 
 app = Flask(__name__)
 app.debug = True
-app.secret_key = 'changeme'
+app.secret_key = 'changeme1'
 oauth = OAuth(app)
 
-consumer_key = 'WI?dIp8B2E=cKBR9Wqc!.M9Cejsz62up7=IkmcD2'     # Client ID
-consumer_secret = '4?nQyyty91-SZ;udseamL4Q8TZq0qIgjhdPCqC!.hXaPV0PR?6=U7jWTMkys;RB8PVxXZrmc.gGaSk=@s2MfNImAbL=cnlXnEoE4Dy0CwQxhOMOUoM_8wWvTzhm_OW=f'  # Client Secret
-access_token_url = 'https://localhost:8085/o/token/'  
-authorize_url = 'https://localhost:8085/o/authorize/'
+consumer_key = 'Vmc8aEJ=cYR5r6rf11--xiEA.!DJlLK997XY.uk7'     # Client ID
+consumer_secret = 'mDfa3qAo1Hcvv8Y1s1Fn;r08YvZYMDPKhxbgRGv:h1d0SOiSOIPTE3ZBZZcjc=TvkVIFxEJ1:WKawBVi6jtC_WLBXp-rOciJ!_b?L5B7hVq7y1hsFNL9oi-hr?kRzrDg'
+access_token_url = 'https://goonauth.cattes.us/o/token/'  
+authorize_url = 'https://goonauth.cattes.us/o/authorize/'
 
 goonauth = oauth.remote_app(
     'goonauth',
     consumer_key=consumer_key,
     consumer_secret=consumer_secret,
-    request_token_params={'scope': 'write'},
-    base_url='https://localhost:8085/api/',
+    request_token_params={'scope': 'read'},
+    base_url='https://goonauth.cattes.us/api/',
     request_token_url=None,
     access_token_method='POST',
     access_token_url=access_token_url,
@@ -28,7 +30,11 @@ goonauth = oauth.remote_app(
 @app.route('/')
 def index():
     if 'goonauth_token' in session:
-        return 'authd'
+        headers = {
+            'Authorization': 'Bearer ' + session.get('goonauth_token')
+        }
+        profile = requests.get('https://goonauth.cattes.us/api/profiles/user/', headers=headers).text
+        return profile
 
     return redirect(url_for('login'))
 
@@ -47,7 +53,8 @@ def authorized(resp):
             request.args['error_description']
         )
     
-    session['goonauth_token'] = (resp['access_token'], '')
+    session['goonauth_token'] = resp['access_token']
+    return redirect('/')
 
 
 @goonauth.tokengetter
@@ -56,4 +63,5 @@ def get_goonauth_oauth_token():
 
 
 if __name__ == '__main__':
-    app.run(ssl_context='adhoc')
+    #app.run(ssl_context='adhoc')
+    app.run()
