@@ -37,7 +37,8 @@ class SomethingAwful(object):
         postcount = int(html.xpath('//dl[@class="additional"]/dd[2]/text()')[0])
         postrate = html.xpath('//dl[@class="additional"]/dd[3]/text()')[0]
         lastpost = html.xpath('//dl[@class="additional"]/dd[4]/text()')[0]
-        occupation = html.xpath('//dl[@class="additional"]/dd[5]/text()')[0]
+        location = html.xpath('//dl[@class="additional"]/dd[5]/text()')[0]
+        occupation = html.xpath('//dl[@class="additional"]/dd[6]/text()')[0]
         userid = html.xpath("//form[1]/input[@name='userid']/@value")[0]
 
         profile = {
@@ -50,7 +51,8 @@ class SomethingAwful(object):
             'postcount': postcount,
             'postrate': postrate,
             'lastpost': lastpost,
-            'occupation': occupation
+            'occupation': occupation,
+            'location': location
         }
 
         d = datetime.strptime(profile['regdate'], '%b %d, %Y')
