@@ -36,7 +36,7 @@
 		  <form method="POST" action="{% url "somethingawful" %}">
 			<legend>Somethingawful Profile</legend>
 
-			<p>To verify you account put your verification code into any editable field in the 'Contact Information' section of your SomethingAwful profile. Once the code is in place please put a link to your profile and click Verify.</p>
+			<p>To verify your account put your verification code into either the 'Location' field or the 'Occupation' field of your SomethingAwful profile. Once the code is in place please put a link to your profile and click Verify.</p>
 			
             {% csrf_token %}
             {{ form|bootstrap }}

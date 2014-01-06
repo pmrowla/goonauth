@@ -331,7 +331,7 @@ class SAVerificationView(FormView):
                 
         
         if not succeeded:
-            messages.warning(self.request, "Unable to find your verfication code in the supplied profile. Please try again.")
+            messages.warning(self.request, "Unable to find your verification code in the supplied profile. Please try again.")
 
         return super(SAVerificationView, self).form_valid(form)
 
