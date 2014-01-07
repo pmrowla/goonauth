@@ -39,7 +39,7 @@ class OAuthClientCreateView(LoginRequiredMixin, FormView):
             oapp = OAuthApplication()
             oapp.description = form.cleaned_data['description']
             oapp.website = form.cleaned_data['website']
-        
+
             omodel = Application()
             omodel.user = self.request.user
             omodel.redirect_uris = form.cleaned_data['callback_url']
@@ -50,9 +50,9 @@ class OAuthClientCreateView(LoginRequiredMixin, FormView):
 
             oapp.client = omodel
             oapp.save()
-            
+
             messages.success(self.request, "Application Created!")
-        
+
         return super(OAuthClientCreateView, self).form_valid(form)
 
 
@@ -65,7 +65,7 @@ class OAuthClientUpdateView(LoginRequiredMixin, FormValidMessageMixin, UpdateVie
         obj = super(OAuthClientUpdateView, self).get_object(*args, **kwargs)
         if not obj.user == self.request.user:
             raise Http404
-        
+
         return obj
 
 
@@ -74,7 +74,7 @@ class OAuthClientListView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(OAuthClientListView, self).get_context_data(*args, **kwargs)
-        
+
         clients = Application.objects.filter(user=self.request.user)
         context['clients'] = clients
 
@@ -88,7 +88,10 @@ class HomepageView(TemplateView):
         context = super(HomepageView, self).get_context_data(*args, **kwargs)
 
         if self.request.user.is_authenticated():
-            profile = UserProfile.objects.get(user=self.request.user)
+            try:
+                profile = UserProfile.objects.get(user=self.request.user)
+            except UserProfile.DoesNotExist:
+                profile = None
         else:
             profile = None
 
@@ -98,13 +101,13 @@ class HomepageView(TemplateView):
 
         return context
 
-    
+
 class SteamProfileSettingsView(LoginRequiredMixin, TemplateView):
     template_name = "games/steam.html"
 
     def post(self, *args, **kwargs):
         profile = UserProfile.objects.get(user=self.request.user)
-        
+
         if self.request.POST.get('steamurl'):
             try:
                 steam_data = self.get_steam_data(self.request.POST['steamurl'] + '?xml=1')
@@ -112,7 +115,7 @@ class SteamProfileSettingsView(LoginRequiredMixin, TemplateView):
                 print err
                 messages.warning(self.request, "There was an error parsing your steam profile. If this problem persists contact elgruntox.")
                 return self.render_to_response(self.get_context_data())
-                
+
             if steam_data:
                 steam = profile.steam
                 steam.username = steam_data['username']
@@ -135,7 +138,7 @@ class SteamProfileSettingsView(LoginRequiredMixin, TemplateView):
         context['steam'] = steam
 
         return context
-        
+
 
     def get_steam_data(self, url):
         steam_profile = {}
@@ -144,14 +147,14 @@ class SteamProfileSettingsView(LoginRequiredMixin, TemplateView):
             tree = etree.fromstring(requests.get(url).content)
         except:
             return None
-        
+
         id64 = tree.xpath('/profile/steamID64/text()')[0]
         username = tree.xpath('/profile/steamID/text()')[0]
 
         steam_profile['id'] = id64
         steam_profile['username'] = username
         return steam_profile
-        
+
 
 
 class LeagueOfLegendsProfileSettingsView(LoginRequiredMixin, FormValidMessageMixin, UpdateView):
@@ -212,14 +215,14 @@ class PlaystationNetworkProfileSettingsView(LoginRequiredMixin, FormValidMessage
         profile = UserProfile.objects.get(user=self.request.user)
         psn = profile.psn
         return psn
-    
+
 
 class XboxLiveProfileSettingsView(LoginRequiredMixin, FormValidMessageMixin, UpdateView):
     template_name = "games/xbl.html"
     success_url = '/profile/xbox/'
     model = XboxLiveProfile
     form_valid_message = "Update Successful"
-    
+
     def get_object(self, queryset=None):
         profile = UserProfile.objects.get(user=self.request.user)
         xbl = profile.xbl
@@ -261,7 +264,7 @@ class BlizzardProfileSettingsView(LoginRequiredMixin, FormValidMessageMixin, Upd
         blizz = profile.blizzard
         return blizz
 
-    
+
 class AccountSettingsView(LoginRequiredMixin, TemplateView):
     template_name = "account/settings.html"
 
@@ -313,7 +316,7 @@ class SAVerificationView(LoginRequiredMixin, FormView):
 
             messages.success(self.request, "SA Profile Successfully Synced")
             return super(SAVerificationView, self).form_valid(form)
-            
+
         succeeded = False
 
         for k, v in sa_profile.items():
@@ -328,15 +331,15 @@ class SAVerificationView(LoginRequiredMixin, FormView):
                     sa.postcount = sa_profile['postcount']
                     sa.regdate = sa_profile['regdate']
                     sa.save()
-                
+
                     profile.somethingawful = sa
                     profile.active = True
                     profile.save()
 
                     messages.success(self.request, "Welcome to the site! You are now a verified Goon. Thanks for signing up.")
                     succeeded = True
-                
-        
+
+
         if not succeeded:
             messages.warning(self.request, "Unable to find your verification code in the supplied profile. Please try again.")
 
@@ -380,7 +383,7 @@ class ProfileUserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, gene
 
         self.kwargs['pk'] = profile.id
         kwargs['pk'] = profile.id
-        
+
         return self.retrieve(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
