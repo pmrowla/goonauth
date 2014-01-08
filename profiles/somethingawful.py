@@ -30,14 +30,26 @@ class SomethingAwful(object):
         else:
             username = username[0]
 
-        icq = html.xpath('//td[@class="info"]/dl[@class="contacts"]/dd[2]/span/text()')[0]
-        aim = html.xpath('//td[@class="info"]/dl[@class="contacts"]/dd[3]/span/text()')[0]
-        yahoo = html.xpath('//td[@class="info"]/dl[@class="contacts"]/dd[4]/span/text()')[0]
+        try:
+            icq = html.xpath('//td[@class="info"]/dl[@class="contacts"]/dd[2]/span/text()')[0]
+        except IndexError:
+            icq = None
+
+        try:
+            aim = html.xpath('//td[@class="info"]/dl[@class="contacts"]/dd[3]/span/text()')[0]
+        except IndexError:
+            aim = None
+
+        try:
+            yahoo = html.xpath('//td[@class="info"]/dl[@class="contacts"]/dd[4]/span/text()')[0]
+        except IndexError:
+            yahoo = None
+
         regdate = html.xpath('//dl[@class="additional"]/dd[1]/text()')[0]
         postcount = int(html.xpath('//dl[@class="additional"]/dd[2]/text()')[0])
         postrate = html.xpath('//dl[@class="additional"]/dd[3]/text()')[0]
         lastpost = html.xpath('//dl[@class="additional"]/dd[4]/text()')[0].rstrip() #remove newlines, tabs
-        
+
         additional = lxml.html.tostring(html.xpath('//dl[@class="additional"]')[0])
         if 'Location' in additional:
             location = additional.partition('Location</dt><dd>')[2].partition('</dd>')[0]
@@ -45,7 +57,7 @@ class SomethingAwful(object):
         else:
             location = 'Unknown'
             occupation = additional.partition('Occupation</dt><dd>')[2].partition('</dd>')[0]
-            
+
         userid = html.xpath("//form[1]/input[@name='userid']/@value")[0]
 
         profile = {
