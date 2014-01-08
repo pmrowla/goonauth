@@ -184,6 +184,8 @@ ACCOUNT_LOGIN_REDIRECT_URL = "home"
 ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 2
 
+LOGIN_URL = '/account/login/'
+
 OAUTH2_PROVIDER = {
     # this is the list of available scopes
     'SCOPES': {

@@ -54,3 +54,4 @@ rethinkdb_data/
 config.py
 bent
 local_settings.py
+app.py

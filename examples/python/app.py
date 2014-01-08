@@ -6,11 +6,11 @@ import requests
 
 app = Flask(__name__)
 app.debug = True
-app.secret_key = 'changeme2'
+app.secret_key = 'changeme1'
 oauth = OAuth(app)
 
-consumer_key = ''     # Client ID
-consumer_secret = ''
+consumer_key = 'Vmc8aEJ=cYR5r6rf11--xiEA.!DJlLK997XY.uk7'     # Client ID
+consumer_secret = 'mDfa3qAo1Hcvv8Y1s1Fn;r08YvZYMDPKhxbgRGv:h1d0SOiSOIPTE3ZBZZcjc=TvkVIFxEJ1:WKawBVi6jtC_WLBXp-rOciJ!_b?L5B7hVq7y1hsFNL9oi-hr?kRzrDg'
 access_token_url = 'https://goonauth.cattes.us/o/token/'  
 authorize_url = 'https://goonauth.cattes.us/o/authorize/'
 
@@ -33,7 +33,7 @@ def index():
         headers = {
             'Authorization': 'Bearer ' + session.get('goonauth_token')
         }
-        profile = requests.get('https://goonauth.cattes.us/api/user/', headers=headers).text
+        profile = requests.get('https://goonauth.cattes.us/api/user/', headers=headers, verify=False).text
         return profile
 
     return redirect(url_for('login'))
@@ -63,4 +63,4 @@ def get_goonauth_oauth_token():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
